@@ -1,0 +1,360 @@
+/*
+		
+		ff bTweaks for DILLA
+		1.1
+		Last Modified: 04/22/10
+
+		created by: mikey =)
+		msauls@c.ringling.edu
+		www.michaelsauls.com
+
+		Special Thanks goes to Bohdon Sayre!! He's a genius and has been
+		an awesome help to everybody! Thanks for teaching me everything
+		I know! You the man!!
+		www.bohdon.com
+		
+		Installation:
+		Add the following script to your shelf:
+		
+		source ff_bTweaks_oldMorrisHead;
+		ff_bTweaks_oldMorrisHead;
+		
+		
+		**Read the help docs before using**
+				
+				
+		Directions:
+		- Pose your character
+		- Run Setup
+		- Make any type of modifications to new bTweak shape...sculpt geo tool, softmods, moving verts, etc etc.
+		- Move bTweak shape & slider somewhere appropriate in your scene
+
+
+		Updates:
+			1.1  - Compiled everything into a one button does all. Skipped the adding blendshapes
+				back to existing blendshape, thanks to Bo's help :) Also using boSliders
+				to skip JSfacial and auto names the slider according to the current frame.
+
+			1.02 - Automatically hides unused bShape, and repositions the one
+				to scuplt on, into the center
+						
+			1.01 - Automated some of the processes. Wish I could easily blendshape the 
+				selected to a specific blendshape node =\
+
+*/
+
+
+//=====================================================================================
+//=====================================================================================
+
+
+
+
+global proc ff_bTweaks_oldMorrisHead() {
+
+
+//window name
+	string $btWin_oldMorrisHead = "btWin_oldMorrisHead";
+	
+//check for pre-existing window
+	if (`window -exists $btWin_oldMorrisHead`) deleteUI -window $btWin_oldMorrisHead;
+	
+//create window
+	window  -w 100 -h 150 -s 1 -mxb 0 -mnc "window -e -t \"=)\" btWin_oldMorrisHead;" -t "=)" $btWin_oldMorrisHead;
+
+//column preferences
+	columnLayout -cat "both" 15 -rs 8 -cw 100 -bgc 170 170 170;
+
+//buttons and text
+	text -l "old Head" -align "left" -bgc 170 170 170;
+	button -w 50 -ann "Creates new bTweak shape. Use any type of modifications you'd like...single verts, soft select, soft mods, sculpt geo tool, clusters, etc" -l "SETUP" -bgc 10 10 10
+	   -c "bTweakSetup_oldMorrisHead";
+
+
+//show created window
+	window -e -w 100 -h 105 $btWin_oldMorrisHead; 
+	showWindow $btWin_oldMorrisHead;
+
+}
+
+
+
+
+
+
+//---------------------------------------------------------------
+
+
+global proc bTweakSetup_oldMorrisHead() {
+
+
+
+select -r oldMorris_RIG:oldMorris_RIG:oldMorris_MOD:c_head_PLY ;
+Duplicate;
+CenterPivot;
+
+string $sel[] = `ls -sl`;
+rename $sel bTweakA;
+
+
+
+//------------------------------------------------------------
+//------------------------------------------------------------
+
+
+
+select -r bTweakA;
+
+setAttr -l false "bTweakA.translateX";
+setAttr -l false "bTweakA.translateY";
+setAttr -l false "bTweakA.translateZ";
+setAttr -l false "bTweakA.rotateX";
+setAttr -l false "bTweakA.rotateY";
+setAttr -l false "bTweakA.rotateZ";
+setAttr -l false "bTweakA.scaleX";
+setAttr -l false "bTweakA.scaleY";
+setAttr -l false "bTweakA.scaleZ";
+
+
+
+
+//------------------------------------------------------------
+//------------------------------------------------------------
+
+
+
+//move selected to an absolute position
+
+move -rpr 0 0 0 ;
+move -r 80 -320 0 ;
+
+
+Duplicate;
+CenterPivot;
+
+string $sel[] = `ls -sl`;
+rename $sel bTweakB;
+
+//move selected to an absolute position
+
+move -rpr 0 0 0 ;
+move -r 86 -320 0 ;
+
+select -cl ;
+
+
+
+//------------------------------------------------------------
+//------------------------------------------------------------
+
+
+select -r bTweakA ;
+select -tgl bTweakB ;
+
+
+if (size(`ls -sl`) > 0) {
+    for ($obj in `ls -sl`) {
+        if (!`getAttr -l ($obj+".overrideEnabled")`)
+            setAttr ($obj+".overrideEnabled") 1;
+        if (!`getAttr -l ($obj+".overrideDisplayType")`)
+            setAttr ($obj+".overrideDisplayType") 0;
+    }
+}
+
+
+if (size(`ls -sl`) > 0) {
+    for ($obj in `ls -sl`) {
+        if (!`getAttr -l ($obj+"Shape.overrideEnabled")`)
+            setAttr ($obj+"Shape.overrideEnabled") 1;
+        if (!`getAttr -l ($obj+"Shape.overrideDisplayType")`)
+            setAttr ($obj+"Shape.overrideDisplayType") 0;
+    }
+}
+
+
+
+
+if (`objExists "bTweakAShapeDeformed"`) {
+    setAttr "bTweakAShapeDeformed.overrideEnabled" 1;
+    setAttr bTweakAShapeDeformed.overrideDisplayType 0;
+    }
+
+
+if (`objExists "bTweakBShapeDeformed"`) {
+    setAttr "bTweakBShapeDeformed.overrideEnabled" 1;
+    setAttr bTweakBShapeDeformed.overrideDisplayType 0;
+    }
+
+
+
+//------------------------------------------------------------
+//------------------------------------------------------------
+
+
+
+
+
+
+
+//Create bTweak_xtras group if doesn't exist
+
+if (`objExists "GRP_bTweak_xtras_oldMorrisHead"` == 0)
+        group -em -n "GRP_bTweak_xtras_oldMorrisHead";
+
+
+select -r bTweakA;
+select -tgl bTweakB;
+select -tgl GRP_bTweak_xtras_oldMorrisHead ;
+parent;
+
+
+DeleteUVs;
+DeleteHistory;
+hyperShade -assign lambert1;
+
+select -cl;
+select -r bTweakA;
+select -tgl bTweakB;
+
+string $selectionList[] = `ls -sl`;
+string $bTweakA = $selectionList[0];
+string $bTweakB = $selectionList[1];
+rename $bTweakA bTweak_oldMorrisHead_1;
+rename $bTweakB bTweak_oldMorrisHead_1;
+
+string $selectionList[] = `ls -sl`;
+string $bTweakC = $selectionList[0];
+string $bTweakD = $selectionList[1];
+
+
+
+//------------------------------------------------------------
+//------------------------------------------------------------
+
+
+
+
+//Create blendshape if doesn't exist
+if (`objExists "bTweak_blends_oldMorrisHead"` == 0) {
+        select -tgl oldMorris_RIG:oldMorris_RIG:oldMorris_MOD:c_head_PLY;
+        blendShape -n "bTweak_blends_oldMorrisHead";
+
+        select -cl;
+
+    } else {
+
+
+    //Auto blendshape>add with weight index
+
+    $bsNode = "bTweak_blends_oldMorrisHead";
+    $baseShape = "oldMorris_RIG:oldMorris_RIG:oldMorris_MOD:c_head_PLY";
+
+    float $weightList[] = `getAttr ($bsNode+".w")`;
+    int $nextIndex = size($weightList);
+    int $nextIndex2 = size($weightList)+1;
+
+    blendShape -e -t $baseShape $nextIndex $bTweakC 1 -t $baseShape $nextIndex2 $bTweakD 1 $bsNode;
+
+
+    }
+
+
+
+if (`objExists "c_head_PLYShapeDeformed"`) {
+    setAttr "c_head_PLYShapeDeformed.overrideEnabled" 1;
+    setAttr c_head_PLYShapeDeformed.overrideDisplayType 2;
+    }
+
+
+select -cl;
+
+
+
+
+
+
+
+//------------------------------------------------------------
+//------------------------------------------------------------
+
+
+//Create new slider using boSliders. Thank you Bo!
+
+//Creates GRP_bTweak_JS_oldMorrisHead if doesnt exist
+if (`objExists "GRP_bTweak_JS_oldMorrisHead"` == 0) 
+        group -em -n "GRP_bTweak_JS_oldMorrisHead";
+
+boSliders;
+
+//create and name slider according to current frame   
+$name = `currentTime -q`;
+bsldrCreateSlider("f"+$name, 1.0, 0.0, 0.0, .2, {});
+
+pickWalk -d down;
+
+//make limits verticle, y-axis -1 to 1
+string $ctl[] = `ls -sl`;
+bsldrSetTransLimits($ctl, 0.0, 0.0, -1.0, 1.0);
+
+//get rid of unneeded attributes
+
+string $titleVis = ($ctl[0]+".titleVisibility");
+setAttr $titleVis 0;
+
+setAttr -lock true -keyable false -channelBox false ($ctl[0]+".tx");
+setAttr -keyable false -channelBox false ($ctl[0]+".borderVisibility");
+setAttr -keyable false -channelBox false ($ctl[0]+".v");
+setAttr -keyable false -channelBox false ($ctl[0]+".templateTitle");
+
+deleteUI bsldrWin;
+
+//assign selected slider to new variable
+string $JS = $ctl[0];
+
+pickWalk -d up;
+
+//parent
+select -tgl GRP_bTweak_JS_oldMorrisHead ;
+parent;
+
+//move selected to an absolute position
+move -rpr 0 0 0 ;
+move -r 86 -326.3 .7 ;
+
+//hide unused bShape
+select -r $bTweakC;
+HideSelectedObjects;
+
+
+//Set driven key the new JS slider to respective blend shapes
+string $blend = "bTweak_blends_oldMorrisHead";
+string $bBlend1 = ($blend+"."+$bTweakC);
+string $bBlend2 = ($blend+"."+$bTweakD);
+
+setAttr ($JS+".translateY") -1;
+setAttr $bBlend1 0;
+setAttr $bBlend2 0;
+
+setDrivenKeyframe -currentDriver ($JS+".translateY") $bBlend1;
+setDrivenKeyframe -currentDriver ($JS+".translateY") $bBlend2;
+
+setAttr ($JS+".translateY") 1;
+setAttr $bBlend1 -1;
+setAttr $bBlend2 1;
+
+setDrivenKeyframe -currentDriver ($JS+".translateY") $bBlend1;
+setDrivenKeyframe -currentDriver ($JS+".translateY") $bBlend2;
+
+select -cl ;
+
+  print ("//new bTweak shape created. Use any type of modifications you'd like...single verts, soft select, soft mods, sculpt geo tool, clusters, etc\n");
+
+}
+
+
+
+//--------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------
+
+
+

@@ -1,0 +1,110 @@
+
+
+//================================================================
+//================================================================
+
+
+/*
+		
+		ff_bTweaks HELP DOCS
+		1.03
+		Last Modified: 09/09/10
+
+		created by: mikey =)
+		msauls@c.ringling.edu
+	
+//
+		
+	1.	First, rename the mel script, ff_bTweaks_TEMP.mel, to your character.
+			
+		     i.e. ff_bTweaks_TEMP.mel becomes ff_bTweaks_moomoo.mel
+		
+		
+	2.	You MUST do a search & replace inside the ff_bTweaks_TEMP.mel script 
+		for the following objects. Search for these, and append a suffix of _moomoo
+		(or whatever you want your character suffix to be) to the name. The number 
+		represents how many of that object exists in the script.
+
+		     i.e. ff_bTweaks becomes ff_bTweaks_moomoo
+		
+		     (3) ff_bTweaks
+		     (8) btWin
+		     (2) bTweakSetup
+	 	     (4) bTweak_blends
+		     (3) GRP_bTweak_xtras
+		     (4) GRP_bTweak_JS
+		     (2) bTweak1
+			
+			****IMPORTANT***
+			rename the last one, but keep the 1 last...i.e
+			bTweak_cHead1 
+			           or
+			bTweak_cHead_1
+
+			***NOT***
+			bTweak1_cHead
+		
+
+	3.	The following needs to be renamed to your specific rig/mesh. The
+		first one depends on what you namespace your reference file.
+		
+		     (3) dillo1:fullBody_geo
+		     (3) fullBody_geo
+
+
+	4.	Open your master rig file, and import bTweak_setup.ma into your file.
+		*make sure namespaces are turned OFF*
+
+		- Parent GRP_bTweak_setup under your main character node.
+		
+		- Position PLC_bTweak_home roughly around your JS facial setup
+		
+		- You can then move GRP_bTweak_go to your liking
+		
+		- Position JS_camPiv_L & _R around the outer edges of your JS setup
+		    (they're the pink cubes...must be selected in the hypergraph/outliner)
+		
+		- Once you're finished, go to your hypershade and make the camPivots_cm
+		   fully transparent so they're hidden. 
+			
+			** Don't just hide the geo, they need to be 
+			    "visible in your scene", but just transparent **
+
+		- Test it out by clicking on the hands. Make sure triggers are on.
+	
+		- Save your file. Be sure to make a backup first!
+
+		- In your scene files, you need to update triggers for the hands to work.
+			Advanced > Update All Triggers
+
+		
+	5.	By default, the camera transition in your settings are super slow.
+		I like them off completely, and you can do that by going to 
+		
+		Window > Settings/Preferences > Preferences
+		Settings > Cameras
+
+		and uncheck all the boxes under "Animate Camera Transitions"
+
+		If you like some transition, 0.2 for the Total time isn't too bad.
+
+
+	6.	Don't forget to add this to your shelf:
+
+		source ff_bTweaks_char;
+		ff_bTweaks_char;
+
+		(rename _char to your character's suffix)
+
+
+	7. 	enjoy the little things....doubletap!
+
+
+
+*/
+
+		be happy =)
+
+
+//================================================================
+//================================================================
