@@ -1,0 +1,8 @@
+geo	root	bookPage_root.iff
+geo	jointA	bookPage_jointA.iff
+geo	jointB	bookPage_jointB.iff
+geo	jointC	bookPage_jointC.iff
+geo	downJointA	bookPage_downJointA.iff
+geo	downJointB	bookPage_downJointB.iff
+geo	upJointA	bookPage_upJointA.iff
+geo	upJointB	bookPage_upJointB.iff
