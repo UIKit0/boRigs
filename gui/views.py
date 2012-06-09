@@ -5,13 +5,13 @@ All view classes that make up the boTools gui.
 __version__ = '0.2.0'
 
 import logging
-from view import View
+import boViewGui
 from pymel.core import *
 
 logger = logging.getLogger('Views')
 logger.setLevel(logging.DEBUG)
 
-class Main(View):
+class Main(boViewGui.View):
     """The main view of the GUI.
     Contains several large buttons for accessing other
     feature sections.
@@ -46,7 +46,7 @@ class Main(View):
         boRigs.GUI()
 
 
-class BasicMain(View):
+class BasicMain(boViewGui.View):
     
     def getPath(self):
         return [('Main', 'Main'), ('Basic', 'BasicMain')]
@@ -56,7 +56,7 @@ class BasicMain(View):
             self.viewItem(l='Joint Tools', view='JointTools', ann='Tools for rigging pre-existing joint chains')
             self.viewItem(l='Attribute Tools', view='AttrTools', ann='Tools for creating helpful attributes')
 
-class JointTools(View):
+class JointTools(boViewGui.View):
     
     def getPath(self):
         return [('Main', 'Main'), ('Basic', 'BasicMain'), ('Joint Tools', 'JointTools')]
@@ -104,7 +104,7 @@ class JointTools(View):
         orient = ctl.getParent()
         parentConstraint(jnt, orient, mo=True)
 
-class AttrTools(View):
+class AttrTools(boViewGui.View):
     
     def getPath(self):
         return [('Main', 'Main'), ('Basic', 'BasicMain'), ('Attribute Tools', 'AttrTools')]
@@ -132,7 +132,7 @@ class AttrTools(View):
             cond.outColorR >> geo.overrideEnabled
             cond.outColorG >> geo.overrideDisplayType
 
-class AdvancedMain(View):
+class AdvancedMain(boViewGui.View):
     
     def getPath(self):
         return [('Main', 'Main'), ('Advanced', 'AdvancedMain')]
@@ -143,7 +143,7 @@ class AdvancedMain(View):
             self.frameItem('Spaces', lambda x:x, 'Create space switches for any object')
 
 
-class SpecialMain(View):
+class SpecialMain(boViewGui.View):
     """A view containing shortcuts for special rig types."""
     
     def getPath(self):
@@ -160,7 +160,7 @@ class SpecialMain(View):
                 button(l='Resetter', c=Callback(mel.eval, 'python("import boResetter\\nboResetter.GUI()")'), ann='Facial rigging tool for setting\nup a Jasin Osipa style facial rig interface.')
 
 
-class SpecialRigs(View):
+class SpecialRigs(boViewGui.View):
     def getPath(self):
         return [('Main', 'Main'), ('Special', 'SpecialMain'), ('Rigs', 'SpecialRigs')]
     

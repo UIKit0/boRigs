@@ -14,11 +14,7 @@ VIEWS = views.VIEWS
 WIN_NAME = 'boTweaksWin'
 
 def Gui():
-    g = boViewGui.gui.Gui()
-    g.title = 'Tweaks {0}'.format(boTweaks.__version__)
-    g.winName = WIN_NAME
-    g.defaultView = views.DEFAULT_VIEW
-    g.views = VIEWS
+    title = 'Tweaks {0}'.format(boTweaks.__version__)
+    g = boViewGui.Gui(title, WIN_NAME, VIEWS, views.DEFAULT_VIEW)
     g.create()
-    del g
 
