@@ -4,14 +4,14 @@
 from pymel.core import *
 import boTweaks
 from boTweaks import core
-import boViewGui
+import viewGui
 
 LOG = boTweaks.getLogger('Views')
 
 DEFAULT_VIEW = 'MainView'
 
 
-class MainView(boViewGui.View):
+class MainView(viewGui.View):
     displayName='Main'
     def buildBody(self):
         with columnLayout(adj=True, rs=2):

@@ -5,7 +5,7 @@ The GUI class.
 __version__ = '0.2.1'
 
 import logging, inspect
-import boViewGui
+import viewGui
 import view, views
 from pymel.core import *
 
@@ -16,7 +16,7 @@ logger.setLevel(logging.DEBUG)
 #compile the view dict
 classes = inspect.getmembers(views, inspect.isclass)
 #get all view classes except for the template
-VIEWS = dict( [c for c in classes if issubclass(c[1], boViewGui.View) and c[0] != 'View'] )
+VIEWS = dict( [c for c in classes if issubclass(c[1], viewGui.View) and c[0] != 'View'] )
 logger.debug('Views: %s' % (VIEWS.keys()) )
 
 

@@ -17,7 +17,7 @@
     
     Dependencies:
         boTools
-        boViewGui
+        viewGui
         boSliders.mel
 """
 
